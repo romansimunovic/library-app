@@ -13,7 +13,7 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // automatski generiran ID za bazu
+    private Long id; 
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
