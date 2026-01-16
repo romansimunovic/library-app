@@ -1,6 +1,3 @@
----
-
-````markdown
 # Library App – Backend
 
 **Mentor:** Asistent Marko Buljan  
@@ -143,11 +140,3 @@ Kroz razvoj sam naučio važnost:
 * Dizajna REST API-ja s DTO-ovima i profesionalnim error handlingom
 
 ---
-
-## Link repozitorija
-
-[https://github.com/romansimunovic/library-app](https://github.com/romansimunovic/library-app)
-
-```
-Hoćeš da to složimo?
-```
