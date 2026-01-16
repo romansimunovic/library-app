@@ -1,6 +1,3 @@
----
-
-````markdown
 # Library App – Backend
 
 **Mentor:** Asistent Marko Buljan  
