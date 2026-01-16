@@ -1,0 +1,41 @@
+# ===== Maven =====
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== IntelliJ IDEA =====
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ===== Eclipse =====
+.classpath
+.project
+.settings/
+
+# ===== VS Code =====
+.vscode/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== Spring Boot =====
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+# ===== Environment files =====
+.env
+
+# ===== Test reports =====
+surefire-reports/
+
+# ===== Node / frontend (ako ikad bude u istom repo-u) =====
+node_modules/
