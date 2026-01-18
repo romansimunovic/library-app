@@ -33,10 +33,10 @@ public class BookEntity {
     private String isbn;
 
     /** Godina izdavanja knjige */
-    private int publishedYear;
+    private Integer publishedYear; // nullable
 
     /** Dostupnost knjige u biblioteci */
-    private boolean available;
+    private Boolean available;     // nullable
 
     /** Vrijeme kreiranja zapisa */
     private LocalDateTime createdAt = LocalDateTime.now();

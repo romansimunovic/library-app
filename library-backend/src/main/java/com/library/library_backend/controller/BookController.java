@@ -5,6 +5,9 @@ import com.library.library_backend.dto.BookResponse;
 import com.library.library_backend.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -54,6 +57,26 @@ public class BookController {
         return books;
     }
 
+    @GetMapping("/page")
+public Page<BookResponse> getBooksPage(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+) {
+    return service.getBooksPage(PageRequest.of(page, size));
+}
+
+@GetMapping("/search")
+public List<BookResponse> searchBooks(@RequestParam String q) {
+    return service.searchBooks(q);
+}
+
+@PutMapping("/{bookId}/toggle-availability")
+public BookResponse toggleAvailability(@PathVariable String bookId) {
+    return service.toggleAvailability(bookId);
+}
+
+
+
     /**
      * Dohvaća jednu knjigu prema njenom UUID identifikatoru {@code bookId}.
      *
@@ -79,12 +102,12 @@ public class BookController {
      * HTTP Status: 201 Created
      */
     @PostMapping
-    public BookResponse addBook(@RequestBody BookRequest request) {
-        System.out.println("[REQUEST] POST /api/books | Body: " + request);
-        BookResponse createdBook = service.addBook(request);
-        System.out.println("[RESPONSE] 201 Created | Book: " + createdBook);
-        return createdBook;
-    }
+public BookResponse addBook(@RequestBody @Valid BookRequest request) {
+    System.out.println("[REQUEST] POST /api/books | Body: " + request);
+    BookResponse createdBook = service.addBook(request);
+    System.out.println("[RESPONSE] 201 Created | Book: " + createdBook);
+    return createdBook;
+}
 
     /**
      * Ažurira postojeću knjigu prema UUID identifikatoru {@code bookId}.
@@ -97,12 +120,12 @@ public class BookController {
      *  - 404 Not Found ako knjiga s tim UUID-em ne postoji
      */
     @PutMapping("/{bookId}")
-    public BookResponse updateBook(@PathVariable String bookId, @RequestBody BookRequest request) {
-        System.out.println("[REQUEST] PUT /api/books/" + bookId + " | Body: " + request);
-        BookResponse updatedBook = service.updateBook(bookId, request);
-        System.out.println("[RESPONSE] 200 OK | Book: " + updatedBook);
-        return updatedBook;
-    }
+public BookResponse updateBook(@PathVariable String bookId, @RequestBody @Valid BookRequest request) {
+    System.out.println("[REQUEST] PUT /api/books/" + bookId + " | Body: " + request);
+    BookResponse updatedBook = service.updateBook(bookId, request);
+    System.out.println("[RESPONSE] 200 OK | Book: " + updatedBook);
+    return updatedBook;
+}
 
     /**
      * Briše knjigu prema UUID identifikatoru {@code bookId}.

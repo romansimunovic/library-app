@@ -1,31 +1,26 @@
 package com.library.library_backend.dto;
 
-/**
- * DTO (Data Transfer Object) za REST API koji predstavlja dolazni zahtjev
- * za kreiranje ili ažuriranje knjige.
- * <p>
- * Polja ovog objekta se očekuju od klijenta (npr. frontend aplikacije)
- * pri POST ili PUT zahtjevima.
- */
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class BookRequest {
 
-    /** Naslov knjige */
+    @NotBlank(message = "Naslov knjige ne smije biti prazan")
     private String title;
 
-    /** Autor knjige */
+    @NotBlank(message = "Autor ne smije biti prazan")
     private String author;
 
-    /** ISBN knjige */
-    private String isbn;
+    @Size(min = 10, max = 13, message = "ISBN mora imati 10–13 znakova")
+    private String isbn; // nullable, validacija se primjenjuje samo ako nije null
 
-    /** Godina izdavanja knjige */
-    private int publishedYear;
+    @Min(value = 0, message = "Godina izdanja mora biti pozitivna")
+    private Integer publishedYear; // nullable
 
-    /** Dostupnost knjige u biblioteci */
-    private boolean available;
+    private Boolean available = true; // default true
 
-    // --- Getteri i setteri ---
-
+    // getters & setters
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
@@ -35,9 +30,9 @@ public class BookRequest {
     public String getIsbn() { return isbn; }
     public void setIsbn(String isbn) { this.isbn = isbn; }
 
-    public int getPublishedYear() { return publishedYear; }
-    public void setPublishedYear(int publishedYear) { this.publishedYear = publishedYear; }
+    public Integer getPublishedYear() { return publishedYear; }
+    public void setPublishedYear(Integer publishedYear) { this.publishedYear = publishedYear; }
 
-    public boolean getAvailable() { return available; }
-    public void setAvailable(boolean available) { this.available = available; }
+    public Boolean getAvailable() { return available; }
+    public void setAvailable(Boolean available) { this.available = available; }
 }

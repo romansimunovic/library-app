@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -137,6 +139,30 @@ public class BookService {
         logger.info("Ažurirana knjiga: {}", bookId);
         return toResponse(entity);
     }
+
+    public Page<BookResponse> getBooksPage(PageRequest pageRequest) {
+    return repository.findAll(pageRequest)
+            .map(this::toResponse);
+}
+
+public List<BookResponse> searchBooks(String query) {
+    return repository
+            .findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(query, query)
+            .stream()
+            .map(this::toResponse)
+            .collect(Collectors.toList());
+}
+
+public BookResponse toggleAvailability(String bookId) {
+    BookEntity entity = repository.findByBookId(bookId)
+            .orElseThrow(() -> new RuntimeException("Knjiga nije pronađena"));
+
+    entity.setAvailable(!entity.getAvailable());
+    repository.save(entity);
+
+    return toResponse(entity);
+}
+
 
     /**
      * Pomoćna metoda koja konvertira {@link BookEntity} u {@link BookResponse} DTO.
