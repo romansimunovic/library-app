@@ -86,16 +86,10 @@ logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 
 > **Napomena:** Zamijeniti `<HOST>`, `<PORT>`, `<DATABASE_NAME>`, `<DB_USERNAME>` i `<DB_PASSWORD>` stvarnim podacima.
 
-### 3. Pokretanje backend servera
+### 3. Pokretanje backend servera u Powershellu (Visual Studio)
 
 ```bash
-./mvnw spring-boot:run
-```
-
-ili ako koristiš Maven:
-
-```bash
-mvn spring-boot:run
+.\mvnw spring-boot:run
 ```
 
 * Server će se pokrenuti na `http://localhost:8080`.
