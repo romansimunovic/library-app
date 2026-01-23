@@ -76,6 +76,7 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+server.address=0.0.0.0
 server.port=8080
 
 logging.level.org.springframework.web=DEBUG
