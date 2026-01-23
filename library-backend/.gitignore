@@ -20,7 +20,7 @@ out/
 # ===== OS =====
 .DS_Store
 Thumbs.db
-
+.vscode
 # ===== Logs =====
 logs/
 *.log
