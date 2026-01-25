@@ -14,28 +14,25 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * REST API kontroler za upravljanje knjigama u biblioteci.
- * 
- * CRUD operacije (Create, Read, Update, Delete) su podržane nad entitetom knjige.
+ * REST controller for managing books in the library.
+ *
+ * All endpoints communicate via DTOs (BookRequest / BookResponse) and never expose database entities.
  */
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-
     private final BookService service;
 
-    /**
-     * Konstruktor kontrolera.
-     */
     public BookController(BookService service) {
         this.service = service;
     }
 
-    /**
-     * Dohvaća sve knjige iz baze.
-     */
+    /* ===========================
+       GET ALL / PAGINATED / SEARCH
+       =========================== */
+
     @GetMapping
     public List<BookResponse> getAllBooks() {
         logger.info("[REQUEST] GET /api/books");
@@ -63,13 +60,9 @@ public class BookController {
         return result;
     }
 
-    @PutMapping("/{bookId}/toggle-availability")
-    public BookResponse toggleAvailability(@PathVariable String bookId) {
-        logger.info("[REQUEST] PUT /api/books/{}/toggle-availability", bookId);
-        BookResponse response = service.toggleAvailability(bookId);
-        logger.info("[RESPONSE] 200 OK | Book availability toggled: {}", response);
-        return response;
-    }
+    /* ===========================
+       GET BY ID
+       =========================== */
 
     @GetMapping("/{bookId}")
     public BookResponse getBook(@PathVariable String bookId) {
@@ -78,6 +71,10 @@ public class BookController {
         logger.info("[RESPONSE] 200 OK | Book: {}", book);
         return book;
     }
+
+    /* ===========================
+       CREATE / UPDATE
+       =========================== */
 
     @PostMapping
     public BookResponse addBook(@RequestBody @Valid BookRequest request) {
@@ -95,16 +92,23 @@ public class BookController {
         return updatedBook;
     }
 
+    @PutMapping("/{bookId}/toggle-availability")
+    public BookResponse toggleAvailability(@PathVariable String bookId) {
+        logger.info("[REQUEST] PUT /api/books/{}/toggle-availability", bookId);
+        BookResponse response = service.toggleAvailability(bookId);
+        logger.info("[RESPONSE] 200 OK | Book availability toggled: {}", response);
+        return response;
+    }
+
+    /* ===========================
+       DELETE
+       =========================== */
+
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<String> deleteBook(@PathVariable String bookId) {
+    public ResponseEntity<Void> deleteBook(@PathVariable String bookId) {
         logger.info("[REQUEST] DELETE /api/books/{}", bookId);
-        boolean deleted = service.deleteBook(bookId);
-        if (deleted) {
-            logger.info("[RESPONSE] 200 OK - Knjiga obrisana");
-            return ResponseEntity.ok("Knjiga obrisana.");
-        } else {
-            logger.warn("[RESPONSE] 404 Not Found - Knjiga nije pronađena");
-            return ResponseEntity.status(404).body("Knjiga nije pronađena.");
-        }
+        service.deleteBook(bookId);
+        logger.info("[RESPONSE] 204 No Content | Book deleted");
+        return ResponseEntity.noContent().build();
     }
 }

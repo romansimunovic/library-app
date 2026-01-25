@@ -1,49 +1,68 @@
 package com.library.library_backend.dto;
 
 /**
- * DTO (Data Transfer Object) za REST API koji predstavlja izlazne podatke
- * o knjizi korisniku.
- * <p>
- * Koristi se prilikom GET zahtjeva ili nakon kreiranja / ažuriranja knjige
- * da bi se korisniku vratio kompletan objekt s jedinstvenim identifikatorom.
+ * Response DTO used for exposing book data via REST API.
+ *
+ * Contains all BookEntity fields except BaseEntity attributes.
  */
 public class BookResponse {
 
-    /** Jedinstveni identifikator knjige (UUID) */
+    /** Public UUID identifier */
     private String bookId;
 
-    /** Naslov knjige */
     private String title;
-
-    /** Autor knjige */
     private String author;
-
-    /** ISBN knjige */
     private String isbn;
+    private Integer publishedYear;
+    private Boolean available;
 
-    /** Godina izdavanja knjige */
-    private int publishedYear;
+    // Getters & Setters
 
-    /** Dostupnost knjige u biblioteci */
-    private boolean available;
+    public String getBookId() {
+        return bookId;
+    }
 
-    // --- Getteri i setteri ---
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
 
-    public String getBookId() { return bookId; }
-    public void setBookId(String bookId) { this.bookId = bookId; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public String getAuthor() {
+        return author;
+    }
 
-    public String getIsbn() { return isbn; }
-    public void setIsbn(String isbn) { this.isbn = isbn; }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public int getPublishedYear() { return publishedYear; }
-    public void setPublishedYear(int publishedYear) { this.publishedYear = publishedYear; }
+    public String getIsbn() {
+        return isbn;
+    }
 
-    public boolean getAvailable() { return available; }
-    public void setAvailable(boolean available) { this.available = available; }
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public Integer getPublishedYear() {
+        return publishedYear;
+    }
+
+    public void setPublishedYear(Integer publishedYear) {
+        this.publishedYear = publishedYear;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }

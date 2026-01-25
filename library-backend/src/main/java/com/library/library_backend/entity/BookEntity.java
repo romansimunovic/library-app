@@ -1,74 +1,86 @@
 package com.library.library_backend.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+
 import java.util.UUID;
 
 /**
- * Entitet koji predstavlja knjigu u bazi podataka.
- * <p>
- * Polja ovog entiteta se mapiraju na stupce u tablici "book_entity".
- * Koristi se za pohranu i dohvat podataka o knjigama.
+ * Entity representing a book stored in the database.
+ *
+ * This entity extends {@link BaseEntity} and contains only
+ * domain-specific fields related to a book.
+ *
+ * Database identifiers and timestamps are inherited
+ * and NOT exposed through the REST API.
  */
 @Entity
-@Table(name = "book_entity")
-public class BookEntity {
+@Table(name = "books")
+public class BookEntity extends BaseEntity {
 
-    /** Interni ID entiteta (primarni ključ baze, automatski generiran) */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    /** Jedinstveni identifikator knjige koji se koristi u REST API (UUID) */
-    @Column(unique = true, nullable = false)
+    /** Public UUID used by REST API and clients */
+    @Column(nullable = false, unique = true, updatable = false)
     private String bookId = UUID.randomUUID().toString();
 
-    /** Naslov knjige */
+    /** Book title */
+    @Column(nullable = false)
     private String title;
 
-    /** Autor knjige */
+    /** Book author */
+    @Column(nullable = false)
     private String author;
 
-    /** ISBN knjige */
+    /** ISBN number */
     private String isbn;
 
-    /** Godina izdavanja knjige */
-    private Integer publishedYear; // nullable
+    /** Year the book was published */
+    private Integer publishedYear;
 
-    /** Dostupnost knjige u biblioteci */
-    private Boolean available;     // nullable
+    /** Availability status */
+    private Boolean available = true;
 
-    /** Vrijeme kreiranja zapisa */
-    private LocalDateTime createdAt = LocalDateTime.now();
+    // --- Getters & Setters ---
 
-    /** Vrijeme posljednje izmjene zapisa */
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    public String getBookId() {
+        return bookId;
+    }
 
-    // --- Getteri i setteri ---
+    public String getTitle() {
+        return title;
+    }
 
-    public Long getId() { return id; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getBookId() { return bookId; }
-    public void setBookId(String bookId) { this.bookId = bookId; }
+    public String getAuthor() {
+        return author;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public String getIsbn() {
+        return isbn;
+    }
 
-    public String getIsbn() { return isbn; }
-    public void setIsbn(String isbn) { this.isbn = isbn; }
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
 
-    public int getPublishedYear() { return publishedYear; }
-    public void setPublishedYear(int publishedYear) { this.publishedYear = publishedYear; }
+    public Integer getPublishedYear() {
+        return publishedYear;
+    }
 
-    public boolean getAvailable() { return available; }
-    public void setAvailable(boolean available) { this.available = available; }
+    public void setPublishedYear(Integer publishedYear) {
+        this.publishedYear = publishedYear;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Boolean getAvailable() {
+        return available;
+    }
 
-    public LocalDateTime getModifiedAt() { return modifiedAt; }
-    public void setModifiedAt(LocalDateTime modifiedAt) { this.modifiedAt = modifiedAt; }
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }

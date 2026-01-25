@@ -4,35 +4,70 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Request DTO used for creating and updating books.
+ *
+ * Does NOT contain:
+ * - Database identifiers
+ * - UUID bookId
+ * - BaseEntity fields
+ */
 public class BookRequest {
 
-    @NotBlank(message = "Naslov knjige ne smije biti prazan")
+    @NotBlank(message = "Title must not be empty")
     private String title;
 
-    @NotBlank(message = "Autor ne smije biti prazan")
+    @NotBlank(message = "Author must not be empty")
     private String author;
 
-    @Size(min = 10, max = 13, message = "ISBN mora imati 10–13 znakova")
-    private String isbn; // nullable, validacija se primjenjuje samo ako nije null
+    @Size(min = 10, max = 13, message = "ISBN must be between 10 and 13 characters")
+    private String isbn;
 
-    @Min(value = 0, message = "Godina izdanja mora biti pozitivna")
-    private Integer publishedYear; // nullable
+    @Min(value = 0, message = "Published year must be a positive number")
+    private Integer publishedYear;
 
-    private Boolean available = true; // default true
+    /** Defaults to true when not provided */
+    private Boolean available = true;
 
-    // getters & setters
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    // Getters & Setters
 
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getIsbn() { return isbn; }
-    public void setIsbn(String isbn) { this.isbn = isbn; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public Integer getPublishedYear() { return publishedYear; }
-    public void setPublishedYear(Integer publishedYear) { this.publishedYear = publishedYear; }
+    public String getAuthor() {
+        return author;
+    }
 
-    public Boolean getAvailable() { return available; }
-    public void setAvailable(Boolean available) { this.available = available; }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public Integer getPublishedYear() {
+        return publishedYear;
+    }
+
+    public void setPublishedYear(Integer publishedYear) {
+        this.publishedYear = publishedYear;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }

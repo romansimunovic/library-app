@@ -3,43 +3,38 @@ package com.library.library_backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.Instant;
 
 /**
- * Apstraktna baza za sve entitete u aplikaciji.
- * <p>
- * Ova klasa sadrži zajednička polja koja se koriste u svim entitetima:
- * - Jedinstveni primarni ključ {@code id}
- * - Vrijeme kreiranja {@code createdAt}
- * - Vrijeme posljednje izmjene {@code modifiedAt}
- * <p>
- * Klase koje nasljeđuju {@code BaseEntity} automatski nasljeđuju ove atribute i
- * funkcionalnost automatskog ažuriranja vremena izmjene.
+ * Base entity that provides common database fields for all entities.
+ *
+ * Contains:
+ * - Auto-generated primary key (database identifier)
+ * - Creation timestamp
+ * - Last modification timestamp
  */
 @MappedSuperclass
 @Getter
 @Setter
 public abstract class BaseEntity {
 
-    /** Primarni ključ entiteta, automatski generiran */
+    /** Database primary key (not exposed via API) */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
 
-    /** Vrijeme kreiranja entiteta, postavljeno prilikom inicijalizacije i ne može se mijenjati */
+    /** Timestamp when the entity was created */
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
-    /** Vrijeme posljednje izmjene entiteta, automatski se ažurira prilikom svakog update-a */
+    /** Timestamp of the last entity update */
     @Column(nullable = false)
     private Instant modifiedAt = Instant.now();
 
-    /**
-     * Metoda koja se poziva prije svakog update-a entiteta.
-     * Automatski postavlja {@code modifiedAt} na trenutno vrijeme.
-     */
+    /** Automatically updates modification timestamp before update */
     @PreUpdate
-    public void preUpdate() {
+    protected void onUpdate() {
         this.modifiedAt = Instant.now();
     }
 }
