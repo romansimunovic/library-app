@@ -1,72 +1,73 @@
-# Library App – Backend
+# Library App Backend 
 
-**Mentor:** Asistent Marko Buljan  
-**Kolegij:** Programiranje 3 – Filozofski fakultet Osijek, 2. godina diplomskog studija  
-**Autor:** Roman Šimunović  
-**Repozitorij:** [https://github.com/romansimunovic/library-app](https://github.com/romansimunovic/library-app)
+**Mentor:** Asistent Marko Buljan
+**Kolegij:** Programiranje 3 – Filozofski fakultet Osijek, 2. godina diplomskog studija
+**Autor:** Roman Šimunović
+**Repozitorij:** [GitHub](https://github.com/romansimunovic/library-app)
 
----
-
-## Opis projekta
-
-`Library App` je REST API backend za upravljanje bibliotečnim knjigama.  
-Projekt omogućava:
-
-- Dohvat svih knjiga
-- Dohvat pojedinačne knjige prema UUID identifikatoru (`bookId`)
-- Kreiranje novih knjiga
-- Ažuriranje postojećih knjiga
-- Brisanje knjiga
-
-Sve operacije se izvode **preko UUID `bookId`** kako bi se izbjeglo korištenje internih baze ID-a i omogućila veća sigurnost i stabilnost API-ja.
-
-Projekt je razvijen u okviru kolegija **Programiranje 3** koristeći **Spring Boot**, **PostgreSQL** i standardne Java tehnologije.
+REST API backend za upravljanje knjigama u biblioteci. Sve CRUD operacije koriste **UUID `bookId`** za stabilnost i sigurnost, a projekt je razvijen u okviru kolegija **Programiranje 3** koristeći **Spring Boot** i **PostgreSQL**.
 
 ---
 
-## Tehnologije i korištena rješenja
+## 🔹 Ključne funkcionalnosti
 
-- **Java 17 / Spring Boot 3** – omogućuje brzo i modularno razvijanje REST API-ja
-- **Spring Data JPA** – za jednostavan rad s bazom podataka (CRUD operacije)
-- **PostgreSQL** – relacijska baza podataka
-- **SLF4J / Logger** – praćenje događaja i logiranje operacija u terminal
-- **DTO (BookRequest / BookResponse)** – razdvajanje entiteta i REST komunikacije
-- **UUID za `bookId`** – sigurniji i stabilniji identifikator od autoinkrementalnog ID-a
+* Dohvat svih knjiga (`GET /api/books`)
+* Dohvat pojedinačne knjige prema UUID (`GET /api/books/{bookId}`)
+* Kreiranje nove knjige (`POST /api/books`)
+* Ažuriranje postojeće knjige (`PUT /api/books/{bookId}`)
+* Brisanje knjige (`DELETE /api/books/{bookId}`)
 
----
-
-## Poteškoće i rješenja
-
-1. **UUID vs Long ID**  
-   - Na početku sam koristio Long ID iz baze, što nije bilo pogodno za REST API.  
-   - Rješenje: generiranje **UUID-a** u entitetu `BookEntity` i korištenje `bookId` za sve CRUD operacije.
-
-2. **Prikaz requestova u terminalu (VS Code)**  
-   - Po defaultu Spring Boot ne prikazuje svaki HTTP request.  
-   - Rješenje: dodan **logger u `BookController` i `BookService`**, te konfiguracija `logging.level.org.springframework.web=DEBUG` u `application.properties`.
-
-3. **Exception handling za REST API**  
-   - Na početku sam koristio `RuntimeException`, što nije profesionalno za REST.  
-   - Preporuka: koristiti `ResponseStatusException` u kontroleru za vraćanje **HTTP 404** kada knjiga nije pronađena.
-
-4. **Transakcije prilikom brisanja**  
-   - Brisanje knjiga ponekad nije radilo bez transakcija.  
-   - Rješenje: dodana anotacija `@Transactional` u metodu `deleteBook` kako bi EntityManager mogao upravljati operacijom.
+Sve operacije koriste **UUID** kako bi se izbjeglo korištenje internih baze ID-a i omogućila veća sigurnost.
 
 ---
 
-## Instalacija i pokretanje
+## ⚡ Tehnologije i rješenja
+
+* **Java 17 / Spring Boot 3** – modularan i brz REST API
+* **Spring Data JPA** – jednostavno upravljanje CRUD operacijama
+* **PostgreSQL** – relacijska baza podataka
+* **DTO** (`BookRequest` / `BookResponse`) – odvajanje entiteta i REST komunikacije
+* **SLF4J / Logger** – praćenje i logiranje svih operacija
+* **UUID za `bookId`** – stabilniji i sigurniji od autoinkrementalnog ID-a
+
+---
+
+## 🛠️ Poteškoće i rješenja
+
+1. **UUID vs Long ID**
+
+   * Problem: REST API s Long ID-om nije bio optimalan.
+   * Rješenje: `BookEntity` sada generira **UUID**, sve CRUD operacije koriste `bookId`.
+
+2. **Prikaz requestova u terminalu**
+
+   * Problem: Spring Boot po defaultu ne prikazuje sve HTTP requestove.
+   * Rješenje: Logger u `BookController` i `BookService`, plus `logging.level.org.springframework.web=DEBUG`.
+
+3. **Exception handling**
+
+   * Problem: Korištenje `RuntimeException` nije profesionalno za REST.
+   * Rješenje: `ResponseStatusException` za vraćanje HTTP 404 kada knjiga nije pronađena.
+
+4. **Transakcije pri brisanju knjiga**
+
+   * Problem: Brisanje nije uvijek radilo bez transakcija.
+   * Rješenje: Anotacija `@Transactional` u `deleteBook` metodi.
+
+---
+
+## 🚀 Instalacija i pokretanje
 
 ### 1. Kloniranje repozitorija
+
 ```bash
 git clone https://github.com/romansimunovic/library-app.git
 cd library-app
-````
+```
 
-### 2. Konfiguracija baze podataka
+### 2. Konfiguracija baze
 
-* Napraviti lokalnu PostgreSQL bazu ili koristiti postojeću.
-* Napraviti `application.properties` koristeći primjer:
+U `application.properties` postaviti podatke o PostgreSQL bazi:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://<HOST>:<PORT>/<DATABASE_NAME>
@@ -86,29 +87,31 @@ logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 
 > **Napomena:** Zamijeniti `<HOST>`, `<PORT>`, `<DATABASE_NAME>`, `<DB_USERNAME>` i `<DB_PASSWORD>` stvarnim podacima.
 
-### 3. Pokretanje backend servera u Powershellu (Visual Studio)
+### 3. Pokretanje backend servera
 
 ```bash
 .\mvnw spring-boot:run
 ```
 
-* Server će se pokrenuti na `http://localhost:8080`.
-* Svi HTTP requestovi će biti vidljivi u terminalu zahvaljujući loggeru.
+* Server se pokreće na `http://localhost:8080`.
+* Svi HTTP requestovi su vidljivi u terminalu zahvaljujući loggeru.
 
 ### 4. Testiranje API-ja
 
-* Preporučeno: [Postman](https://www.postman.com/) ili `curl`.
-* Primjeri endpointova:
+* Alati: [Postman](https://www.postman.com/) ili `curl`.
+* Endpoint primjeri:
 
-  * `GET /api/books` – dohvat svih knjiga
-  * `GET /api/books/{bookId}` – dohvat jedne knjige
-  * `POST /api/books` – kreiranje nove knjige
-  * `PUT /api/books/{bookId}` – ažuriranje knjige
-  * `DELETE /api/books/{bookId}` – brisanje knjige
+| Metoda | Endpoint            | Opis                  |
+| ------ | ------------------- | --------------------- |
+| GET    | /api/books          | Dohvat svih knjiga    |
+| GET    | /api/books/{bookId} | Dohvat jedne knjige   |
+| POST   | /api/books          | Kreiranje nove knjige |
+| PUT    | /api/books/{bookId} | Ažuriranje knjige     |
+| DELETE | /api/books/{bookId} | Brisanje knjige       |
 
 ---
 
-## Struktura projekta
+## 🗂️ Struktura projekta
 
 ```
 library-backend/
@@ -126,12 +129,8 @@ library-backend/
 
 ## Zaključak
 
-Projekt `Library App` omogućuje jednostavno upravljanje knjigama u biblioteci preko REST API-ja.
-Kroz razvoj sam naučio važnost:
+Projekt `Library App` backend omogućuje:
 
-* Korištenja UUID identifikatora za stabilnost i sigurnost API-ja
-* Logiranja i praćenja requestova u terminalu
-* Ispravnog upravljanja transakcijama u Spring Bootu
-* Dizajna REST API-ja s DTO-ovima i profesionalnim error handlingom
-
----
+* Stabilno i sigurno upravljanje knjigama preko REST API-ja
+* Profesionalan error handling i logiranje requestova
+* Učenje važnosti UUID identifikatora, transakcija i DTO dizajna
