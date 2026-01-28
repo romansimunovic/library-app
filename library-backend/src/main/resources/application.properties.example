@@ -1,39 +1,22 @@
-##############################
-# Spring Boot Database Config (example)
-##############################
+# ===== Logging =====
+LOGGING_LEVEL_SPRING_WEB=DEBUG
+LOGGING_LEVEL_HIBERNATE_SQL=DEBUG
+LOGGING_LEVEL_HIBERNATE_BINDER=TRACE
 
-# URL PostgreSQL baze
-spring.datasource.url=jdbc:postgresql://<HOST>:<PORT>/<DATABASE_NAME>
+# ===== Datasource =====
+SPRING_DATASOURCE_URL=jdbc:postgresql://<HOST>:<PORT>/<DB_NAME>
+SPRING_DATASOURCE_USERNAME=<USERNAME>
+SPRING_DATASOURCE_PASSWORD=<PASSWORD>
+SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
 
-# Korisničko ime i lozinka (zamijeniti stvarnim podacima)
-spring.datasource.username=<DB_USERNAME>
-spring.datasource.password=<DB_PASSWORD>
+# ===== JPA / Hibernate =====
+SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+SPRING_JPA_SHOW_SQL=true
+SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
 
-# PostgreSQL driver
-spring.datasource.driver-class-name=org.postgresql.Driver
+# ===== Flyway =====
+SPRING_FLYWAY_ENABLED=true
 
-# Automatsko kreiranje / update sheme baze
-spring.jpa.hibernate.ddl-auto=update
-
-# Prikaz SQL upita u terminalu
-spring.jpa.show-sql=true
-
-# Hibernate dialect za PostgreSQL
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-
-##############################
-# Server Config
-##############################
-server.port=8080
-server.address=0.0.0.0
-
-##############################
-# Logging Config
-##############################
-
-# Logiranje svih HTTP requestova (GET/POST/PUT/DELETE)
-logging.level.org.springframework.web=DEBUG
-
-# Logiranje Hibernate SQL upita (opcionalno, detaljno)
-logging.level.org.hibernate.SQL=DEBUG
-logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+# ===== Server =====
+SERVER_ADDRESS=0.0.0.0
+SERVER_PORT=8080

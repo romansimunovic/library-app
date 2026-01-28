@@ -1,40 +1,42 @@
 package com.library.library_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.Instant;
 
-/**
- * Base entity that provides common database fields for all entities.
- *
- * Contains:
- * - Auto-generated primary key (database identifier)
- * - Creation timestamp
- * - Last modification timestamp
- */
 @MappedSuperclass
-@Getter
-@Setter
 public abstract class BaseEntity {
 
-    /** Database primary key (not exposed via API) */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Timestamp when the entity was created */
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
-    /** Timestamp of the last entity update */
-    @Column(nullable = false)
-    private Instant modifiedAt = Instant.now();
+    @Column(name = "modified_at", nullable = false)
+    private Instant modifiedAt;
 
-    /** Automatically updates modification timestamp before update */
+    @PrePersist
+    protected void onCreate() {
+        Instant now = Instant.now();
+        this.createdAt = now;
+        this.modifiedAt = now;
+    }
+
     @PreUpdate
     protected void onUpdate() {
         this.modifiedAt = Instant.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getModifiedAt() {
+        return modifiedAt;
     }
 }

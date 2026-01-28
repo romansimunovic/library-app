@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -77,12 +78,20 @@ public class BookController {
        =========================== */
 
     @PostMapping
-    public BookResponse addBook(@RequestBody @Valid BookRequest request) {
-        logger.info("[REQUEST] POST /api/books | Body: {}", request);
-        BookResponse createdBook = service.addBook(request);
-        logger.info("[RESPONSE] 201 Created | Book: {}", createdBook);
-        return createdBook;
-    }
+public ResponseEntity<BookResponse> addBook(
+        @RequestBody @Valid BookRequest request
+) {
+    BookResponse createdBook = service.addBook(request);
+
+    URI location = URI.create(
+            "/api/books/" + createdBook.getBookId()
+    );
+
+    return ResponseEntity
+            .created(location)
+            .body(createdBook);
+}
+
 
     @PutMapping("/{bookId}")
     public BookResponse updateBook(@PathVariable String bookId, @RequestBody @Valid BookRequest request) {
