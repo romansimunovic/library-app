@@ -1,9 +1,9 @@
 # Library App Backend
 
-**Course:** Programming 3 – Faculty of Humanities and Social Sciences, University of Osijek
-**Study Level:** 2nd Year Master’s Programme
-**Mentor:** Marko Buljan
-**Author:** Roman Šimunović
+* Course: Programming 3 – Faculty of Humanities and Social Sciences, University of Osijek
+* Study Level: 2nd Year Master’s Programme
+* Mentor:** Marko Buljan
+* Author: Roman Šimunović
 
 ## Overview
 
