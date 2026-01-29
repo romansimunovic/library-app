@@ -1,9 +1,8 @@
 # Library App Backend
 
-**Mentor:** Assistant Marko Buljan
-**Course:** Programming 3 – Faculty of Humanities and Social Sciences, University of Osijek, 2nd year Master’s
-**Author:** Roman Šimunović
-**Repository:** [GitHub](https://github.com/romansimunovic/library-app)
+* Mentor: Assistant Marko Buljan
+* Course: Programming 3 – Faculty of Humanities and Social Sciences, University of Osijek, 2nd year Master’s
+* Author: Roman Šimunović
 
 This is a **REST API backend** for managing books in a library. All CRUD operations use **UUID `bookId`** for stability and security. This project was developed as part of the **Programming 3** course using **Spring Boot** and **PostgreSQL**.
 
